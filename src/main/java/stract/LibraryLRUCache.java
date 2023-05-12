@@ -9,7 +9,7 @@ import com.home.libraryrestapi.model.Book;
 public class LibraryLRUCache {
 
     private final int LRU_CAPACITY = 3;
-    private final int TIMER_INTERVAL_IN_MS = 30000;
+    private final int TIMER_INTERVAL_IN_MS = 10000;
     private final int TTL_IN_MS = 60000;
   
     private static LibraryLRUCache instance;
