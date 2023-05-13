@@ -35,8 +35,9 @@ public class BookController {
 	@PostMapping("/add")
 	public ResponseEntity<Book> addBook(@RequestBody Book book) {
 		try {
-			libraryLRUCache.addBook(book);
-			Book _book = bookRepository.save(new Book(book.getName(), book.getAuthor(), book.getNumberOfpages()));
+			Book newBook =new Book(book.getName(), book.getAuthor(), book.getNumberOfpages());
+			libraryLRUCache.addBook(newBook);
+			Book _book = bookRepository.save(newBook);
 			return new ResponseEntity<>(_book, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,7 +48,7 @@ public class BookController {
 	public ResponseEntity<Book> getBookById(@PathVariable("id") long id) {
 		Book book = libraryLRUCache.getBookById(id);
 		if (book != null) {
-			return new ResponseEntity<>(book, HttpStatus.OK);
+			return new ResponseEntity<>(new Book(book), HttpStatus.OK);
 		}
 
 		Optional<Book> bookData = bookRepository.findById(id);
